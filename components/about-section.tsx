@@ -21,8 +21,7 @@ export function AboutSection() {
         </p>
 
         <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-10">
-          We believe beauty should be calm, accessible, and timeless. Our
-          collection is crafted for all, priced between {"\u20B9"}600 and {"\u20B9"}1,000,
+          We believe beauty should be calm, accessible, and timeless
           because quiet luxury should never feel out of reach.
         </p>
 
@@ -30,7 +29,7 @@ export function AboutSection() {
           href="/about"
           className="text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors duration-200 border-b border-border hover:border-primary pb-1"
         >
-          Our Story
+          
         </Link>
       </div>
     </section>

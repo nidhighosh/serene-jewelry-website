@@ -27,7 +27,7 @@ export function ShellLogo({
         d="M32 6C32 6 32 58 32 58"
         stroke="currentColor"
         strokeWidth="0.8"
-        opacity="0.6"
+        opacity="0.5"
       />
       <path
         d="M32 6C32 6 18 42 14 52"
