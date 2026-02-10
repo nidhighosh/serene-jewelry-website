@@ -11,6 +11,15 @@
   }
 }
 
+@keyframes drift {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-2deg);
+  }
+}
+
 @layer base {
   :root {
     --background: 36 30% 88%;
@@ -19,18 +28,18 @@
     --card-foreground: 30 15% 18%;
     --popover: 36 30% 88%;
     --popover-foreground: 30 15% 18%;
-    --primary: 36 40% 48%;
+    --primary: 36 44% 44%;
     --primary-foreground: 36 30% 95%;
     --secondary: 33 22% 80%;
     --secondary-foreground: 30 15% 22%;
     --muted: 35 18% 82%;
     --muted-foreground: 30 10% 40%;
-    --accent: 36 45% 60%;
+    --accent: 35 42% 58%;
     --accent-foreground: 36 33% 96%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 33 18% 75%;
-    --input: 33 18% 75%;
+    --border: 31 20% 62%;
+    --input: 31 20% 62%;
     --ring: 36 40% 52%;
     --radius: 0.75rem;
   }

@@ -26,12 +26,12 @@ export function SiteHeader() {
   const { isSignedUp, requireAuth } = useAuth()
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+    <header className="sticky top-0 z-50 bg-background/88 backdrop-blur-md border-b border-border/70">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group" aria-label="Serene home">
           <ShellLogo size={36} className="text-primary transition-transform duration-300 group-hover:scale-105" />
-          <span className="font-serif text-xl font-medium tracking-wide text-foreground">
+          <span className="font-serif text-xl font-medium tracking-[0.06em] text-foreground">
             Serene
           </span>
         </Link>
@@ -43,7 +43,7 @@ export function SiteHeader() {
               key={link.href}
               href={link.href}
               className={cn(
-                "text-sm tracking-widest uppercase transition-colors duration-200 hover:text-primary",
+                "text-sm tracking-[0.18em] uppercase transition-colors duration-200 hover:text-primary",
                 pathname === link.href
                   ? "text-primary font-medium"
                   : "text-muted-foreground"

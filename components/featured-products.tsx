@@ -6,16 +6,19 @@ export function FeaturedProducts() {
   const featured = products.slice(0, 4)
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+    <section className="mx-auto max-w-6xl px-6 py-22 md:py-30">
       {/* Section header */}
-      <div className="flex flex-col items-center gap-3 mb-14 text-center">
-        <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground">
+      <div className="flex flex-col items-center gap-4 mb-14 text-center">
+        <p className="text-[11px] tracking-[0.28em] uppercase text-primary/85">
           Our Collection
         </p>
-        <h2 className="font-serif text-3xl md:text-4xl font-light text-foreground text-balance">
+        <h2 className="font-serif text-3xl md:text-5xl font-light text-foreground text-balance">
           Timeless Pieces
         </h2>
-        <div className="w-12 h-px bg-primary/40 mt-2" />
+        <p className="max-w-xl text-sm md:text-base leading-relaxed text-muted-foreground text-balance">
+          Designed for layering, gifting, and everyday elegance.
+        </p>
+        <div className="w-14 h-px bg-primary/45 mt-1" />
       </div>
 
       {/* Product grid */}
