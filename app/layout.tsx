@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Cormorant_Garamond, Inter } from 'next/font/google'
 import { CartProvider } from "@/lib/cart-context"
 import { AuthProvider } from "@/lib/auth-context"
+import { WishlistProvider } from "@/lib/wishlist-context"
 import { CartDrawer } from "@/components/cart-drawer"
 import { SignupModal } from "@/components/signup-modal"
 
@@ -36,10 +37,12 @@ export default function RootLayout({
         className={`${cormorant.variable} ${inter.variable} font-sans antialiased`}
       >
         <AuthProvider>
-          <CartProvider>
-            {children}
-            <CartDrawer />
-          </CartProvider>
+          <WishlistProvider>
+            <CartProvider>
+              {children}
+              <CartDrawer />
+            </CartProvider>
+          </WishlistProvider>
           <SignupModal />
         </AuthProvider>
       </body>

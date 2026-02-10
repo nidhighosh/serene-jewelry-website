@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { ShellLogo } from "@/components/shell-logo"
@@ -25,9 +26,21 @@ export default function ProfilePage() {
           <div className="w-12 h-px bg-primary/40 mt-4" />
         </section>
 
-        <ProfileContent />
+        <Suspense fallback={<ProfileFallback />}>
+          <ProfileContent />
+        </Suspense>
       </main>
       <SiteFooter />
     </div>
+  )
+}
+
+function ProfileFallback() {
+  return (
+    <section className="mx-auto max-w-4xl px-6 pb-24 md:pb-32">
+      <div className="bg-card rounded-2xl p-8 text-center">
+        <p className="text-sm text-muted-foreground">Loading profile...</p>
+      </div>
+    </section>
   )
 }

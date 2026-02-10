@@ -1,13 +1,14 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { ShellLogo } from "@/components/shell-logo"
-import { ShoppingBag, Menu, X, User } from "lucide-react"
+import { ShoppingBag, Menu, X, User, Heart } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { useCart } from "@/lib/cart-context"
 import { useAuth } from "@/lib/auth-context"
+import { useWishlist } from "@/lib/wishlist-context"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,8 +19,10 @@ const navLinks = [
 
 export function SiteHeader() {
   const pathname = usePathname()
+  const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
   const { totalItems, setIsOpen } = useCart()
+  const { totalItems: wishlistCount } = useWishlist()
   const { isSignedUp, requireAuth } = useAuth()
 
   return (
@@ -53,6 +56,22 @@ export function SiteHeader() {
 
         {/* Right actions */}
         <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => {
+              if (!requireAuth()) return
+              router.push("/profile?tab=wishlist")
+            }}
+            className="relative text-muted-foreground hover:text-primary transition-colors"
+            aria-label="Wishlist"
+          >
+            <Heart size={20} />
+            {wishlistCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                {wishlistCount}
+              </span>
+            )}
+          </button>
           {isSignedUp ? (
             <Link
               href="/profile"

@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { User, Package, Heart, MapPin } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import { useAuth } from "@/lib/auth-context"
+import { useSearchParams } from "next/navigation"
+import { useWishlist } from "@/lib/wishlist-context"
 
 const tabs = [
   { id: "details", label: "Details", icon: User },
@@ -16,9 +17,24 @@ const tabs = [
 
 type TabId = (typeof tabs)[number]["id"]
 
+function isTabId(value: string | null): value is TabId {
+  return tabs.some((tab) => tab.id === value)
+}
+
 export function ProfileContent() {
-  const [activeTab, setActiveTab] = useState<TabId>("details")
+  const searchParams = useSearchParams()
+  const [activeTab, setActiveTab] = useState<TabId>(() => {
+    const initialTab = searchParams.get("tab")
+    return isTabId(initialTab) ? initialTab : "details"
+  })
   const { user, isSignedUp, setShowSignupModal } = useAuth()
+
+  useEffect(() => {
+    const tab = searchParams.get("tab")
+    if (isTabId(tab)) {
+      setActiveTab(tab)
+    }
+  }, [searchParams])
 
   // If user is not signed up, do not show any personal data.
   if (!isSignedUp) {
@@ -95,7 +111,7 @@ export function ProfileContent() {
       <div className="min-h-[400px]">
         {activeTab === "details" && <DetailsTab user={user} />}
         {activeTab === "orders" && <EmptyState label="Orders" />}
-        {activeTab === "wishlist" && <EmptyState label="Wishlist" />}
+        {activeTab === "wishlist" && <WishlistTab />}
         {activeTab === "addresses" && <EmptyState label="Addresses" />}
       </div>
     </section>
@@ -128,6 +144,42 @@ function EmptyState({ label }: { label: string }) {
   return (
     <div className="bg-card rounded-2xl p-8 text-center">
       <p className="text-sm text-muted-foreground">No {label.toLowerCase()} yet.</p>
+    </div>
+  )
+}
+
+function WishlistTab() {
+  const { items } = useWishlist()
+
+  if (items.length === 0) {
+    return <EmptyState label="Wishlist" />
+  }
+
+  return (
+    <div className="bg-card rounded-2xl p-6 md:p-8">
+      <h3 className="font-serif text-xl font-medium text-foreground mb-6">Saved Pieces</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {items.map((product) => (
+          <article key={product.id} className="rounded-xl border border-border/60 bg-background p-3">
+            <div className="relative aspect-square overflow-hidden rounded-lg mb-3">
+              <Image
+                src={product.image || "/placeholder.svg"}
+                alt={product.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+              />
+            </div>
+            <div className="space-y-1">
+              <h4 className="font-serif text-lg text-foreground">{product.name}</h4>
+              <p className="text-sm text-muted-foreground">
+                {"\u20B9"}
+                {product.price.toLocaleString("en-IN")}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
   )
 }

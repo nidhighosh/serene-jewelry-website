@@ -4,7 +4,8 @@ import Image from "next/image"
 import { useState } from "react"
 import { useCart } from "@/lib/cart-context"
 import { useAuth } from "@/lib/auth-context"
-import { Check } from "lucide-react"
+import { useWishlist } from "@/lib/wishlist-context"
+import { Check, Heart } from "lucide-react"
 
 export interface Product {
   id: string
@@ -18,13 +19,20 @@ export function ProductCard({ product }: { product: Product }) {
   const [isHovered, setIsHovered] = useState(false)
   const [justAdded, setJustAdded] = useState(false)
   const { addItem } = useCart()
+  const { toggleItem, isInWishlist } = useWishlist()
   const { requireAuth } = useAuth()
+  const wishlisted = isInWishlist(product.id)
 
   function handleAddToCart() {
     if (!requireAuth()) return
     addItem(product)
     setJustAdded(true)
     setTimeout(() => setJustAdded(false), 1200)
+  }
+
+  function handleWishlistToggle() {
+    if (!requireAuth()) return
+    toggleItem(product)
   }
 
   return (
@@ -35,6 +43,18 @@ export function ProductCard({ product }: { product: Product }) {
     >
       {/* Image container */}
       <div className="relative aspect-square overflow-hidden rounded-2xl bg-card mb-4">
+        <button
+          type="button"
+          onClick={handleWishlistToggle}
+          aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          className={`absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur-sm transition-all duration-200 ${
+            wishlisted
+              ? "bg-primary text-primary-foreground border-primary"
+              : "bg-background/80 text-muted-foreground border-border hover:border-primary hover:text-primary"
+          }`}
+        >
+          <Heart size={16} className={wishlisted ? "fill-current" : ""} />
+        </button>
         <Image
           src={product.image || "/placeholder.svg"}
           alt={product.name}
