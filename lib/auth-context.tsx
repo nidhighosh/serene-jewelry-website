@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   useCallback,
+  useEffect,
   type ReactNode,
 } from "react"
 
@@ -29,14 +30,31 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null)
   const [showSignupModal, setShowSignupModal] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  // Load user from localStorage on mount
+  useEffect(() => {
+    try {
+      const storedUser = localStorage.getItem("user")
+      if (storedUser) {
+        setUser(JSON.parse(storedUser))
+      }
+    } catch (err) {
+      console.error("Failed to load user from localStorage:", err)
+    } finally {
+      setIsLoaded(true)
+    }
+  }, [])
 
   const signUp = useCallback((profile: UserProfile) => {
     setUser(profile)
+    localStorage.setItem("user", JSON.stringify(profile))
     setShowSignupModal(false)
   }, [])
 
   const signOut = useCallback(() => {
     setUser(null)
+    localStorage.removeItem("user")
   }, [])
 
   const requireAuth = useCallback(() => {

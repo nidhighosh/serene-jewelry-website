@@ -4,6 +4,7 @@ import { useCart } from "@/lib/cart-context"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 export function CartDrawer() {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity, totalPrice, totalItems } =
@@ -104,12 +105,14 @@ export function CartDrawer() {
                   {"\u20B9"}{totalPrice.toLocaleString("en-IN")}
                 </span>
               </div>
-              <button
-                type="button"
-                className="w-full py-3 rounded-full bg-primary text-primary-foreground text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90"
-              >
-                Checkout
-              </button>
+              <Link href="/checkout" onClick={() => setIsOpen(false)}>
+                <button
+                  type="button"
+                  className="w-full py-3 rounded-full bg-primary text-primary-foreground text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90"
+                >
+                  Checkout
+                </button>
+              </Link>
             </div>
           </>
         )}

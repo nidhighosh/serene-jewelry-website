@@ -4,6 +4,7 @@ import { Cormorant_Garamond, Inter } from 'next/font/google'
 import { CartProvider } from "@/lib/cart-context"
 import { AuthProvider } from "@/lib/auth-context"
 import { WishlistProvider } from "@/lib/wishlist-context"
+import { OrdersProvider } from "@/lib/orders-context"
 import { CartDrawer } from "@/components/cart-drawer"
 import { SignupModal } from "@/components/signup-modal"
 
@@ -39,8 +40,10 @@ export default function RootLayout({
         <AuthProvider>
           <WishlistProvider>
             <CartProvider>
-              {children}
-              <CartDrawer />
+              <OrdersProvider>
+                {children}
+                <CartDrawer />
+              </OrdersProvider>
             </CartProvider>
           </WishlistProvider>
           <SignupModal />
